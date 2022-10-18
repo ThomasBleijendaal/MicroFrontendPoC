@@ -348,3 +348,5 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+MicroFrontend/MicroFrontend.App/wwwroot/frontends/**/*.dll
+MicroFrontend/MicroFrontend.App/wwwroot/frontends/**/*.json

@@ -1,0 +1,41 @@
+﻿@using System.Runtime.Loader
+@using System.Reflection
+
+@page "/{slug}"
+@page "/{slug}/{*page}"
+
+@inject HttpClient HttpClient
+@inject IMicroFrontendProvider MicroFrontendProvider
+@inject Interop Interop
+
+<h3>@Slug / @Page</h3>
+
+@if (Component != null)
+{
+    <DynamicComponent Type=@Component Parameters=@ComponentParameters />
+}
+
+@code {
+    private Type? Component { get; set; }
+
+    [Parameter]
+    public string Slug { get; set; } = null!;
+
+    [Parameter]
+    public string? Page { get; set; }
+
+    public Dictionary<string, object?> ComponentParameters = new();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        ComponentParameters["Page"] = Page;
+
+        var frontend = MicroFrontendProvider.GetMicroFrontend(Slug);
+
+        if (frontend != null)
+        {
+            Component = frontend.RootComponent;
+            await Interop.IncludeLink(frontend.Namespace, $"/frontends/{frontend.Namespace}/{frontend.RootComponentName}.styles.css");
+        }
+    }
+}

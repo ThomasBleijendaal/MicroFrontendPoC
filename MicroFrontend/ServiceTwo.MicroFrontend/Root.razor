@@ -1,0 +1,14 @@
+﻿@using Microsoft.AspNetCore.Components.Routing
+
+<div class="my-component">
+    <p>This component is defined in the <strong>ServiceTwo.MicroFrontend</strong> library.</p>
+
+    <p>@Page</p>
+
+    <p><NavLink href="/service-two/test">Test page</NavLink></p>
+</div>
+
+@code {
+    [Parameter]
+    public string? Page { get; set; }
+}
