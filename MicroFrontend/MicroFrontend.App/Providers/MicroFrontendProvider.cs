@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Runtime.Loader;
 using System.Text.RegularExpressions;
 using MicroFrontend.Core;
+using Microsoft.AspNetCore.Components;
 
 namespace MicroFrontend.App.Providers;
 
@@ -19,8 +20,17 @@ internal class MicroFrontendProvider : IMicroFrontendProvider
         _httpClient = httpClient;
     }
 
-    public MicroFrontentRegistration? GetMicroFrontend(string slug)
-        => _isLoaded ? _registrations.FirstOrDefault(x => x.Slug == slug) : null;
+    public async Task<MicroFrontentRegistration?> GetMicroFrontendAsync(string slug)
+    {
+        if (_isLoaded)
+        {
+            return _registrations.FirstOrDefault(x => x.Slug == slug);
+        }
+
+        await GetMicroFrontendsAsync();
+
+        return _registrations.FirstOrDefault(x => x.Slug == slug);
+    }
 
     public async Task<IEnumerable<MicroFrontentRegistration>> GetMicroFrontendsAsync()
     {
@@ -48,23 +58,23 @@ internal class MicroFrontendProvider : IMicroFrontendProvider
                 {
                     foreach (var type in assembly.GetTypes())
                     {
-                        Console.WriteLine(type.FullName);
-
                         if (!type.IsAbstract && !type.IsInterface && type.GetInterfaces().Any(type => type == typeof(IMicroFrontendPlugin)))
                         {
                             if (Activator.CreateInstance(type) is IMicroFrontendPlugin plugin)
                             {
-                                var componentAssemblyName = assembly?.GetName().Name;
-                                var rootComponent = assembly?.GetType($"{componentAssemblyName}.Root");
-
-                                if (componentAssemblyName != null && rootComponent != null)
+                                if (assembly.GetName().Name is string componentAssemblyName)
                                 {
+                                    var pages = assembly.GetTypes()
+                                        .Select(x => (Type: x, Route: x.GetCustomAttribute<RouteAttribute>()?.Template))
+                                        .Where(x => x.Route != null)
+                                        .ToDictionary(x => x.Route!, x => x.Type);
+
                                     _registrations.Add(new MicroFrontentRegistration(
                                         CreateSlug(plugin.Name),
                                         plugin.Name,
                                         frontend.Key,
                                         componentAssemblyName,
-                                        rootComponent));
+                                        pages));
                                 }
                             }
                         }
@@ -76,6 +86,14 @@ internal class MicroFrontendProvider : IMicroFrontendProvider
         _isLoaded = true;
 
         _semaphore.Release();
+
+        foreach (var registrations in _registrations)
+        {
+            foreach (var page in registrations.Pages)
+            {
+                Console.WriteLine($"{page.Key} -> {page.Value.Name}");
+            }
+        }
 
         return _registrations;
     }
@@ -95,5 +113,3 @@ internal class MicroFrontendProvider : IMicroFrontendProvider
 
     private string CreateSlug(string name) => Regex.Replace(name.ToLower(), "[^a-z0-9]", "-").Replace("--", "-");
 }
-
-

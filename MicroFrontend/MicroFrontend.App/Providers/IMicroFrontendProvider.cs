@@ -2,8 +2,6 @@
 
 internal interface IMicroFrontendProvider
 {
-    MicroFrontentRegistration? GetMicroFrontend(string slug);
+    Task<MicroFrontentRegistration?> GetMicroFrontendAsync(string slug);
     Task<IEnumerable<MicroFrontentRegistration>> GetMicroFrontendsAsync();
 }
-
-

@@ -3,13 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroFrontend.App", "MicroFrontend.App\MicroFrontend.App.csproj", "{ED1F26CC-3289-4F8E-A7CA-7216026B1D5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroFrontend.App", "MicroFrontend.App\MicroFrontend.App.csproj", "{ED1F26CC-3289-4F8E-A7CA-7216026B1D5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroFrontend.Core", "MicroFrontend.Core\MicroFrontend.Core.csproj", "{C0353FE3-065C-4BE1-AC1C-A39737486784}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroFrontend.Core", "MicroFrontend.Core\MicroFrontend.Core.csproj", "{C0353FE3-065C-4BE1-AC1C-A39737486784}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceOne.MicroFrontend", "ServiceOne.MicroFrontend\ServiceOne.MicroFrontend.csproj", "{FA5DDEEF-B4D0-46A0-8F31-7F73842291AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceOne.MicroFrontend", "ServiceOne.MicroFrontend\ServiceOne.MicroFrontend.csproj", "{FA5DDEEF-B4D0-46A0-8F31-7F73842291AE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceTwo.MicroFrontend", "ServiceTwo.MicroFrontend\ServiceTwo.MicroFrontend.csproj", "{EC7C777C-FBFE-421A-A480-C53B3CB4A80D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{B5B55AB5-B87E-4C41-B375-4276A82E11BE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceHost", "ServiceHost", "{D059C68B-1818-40E2-B6FD-A9B836CFC85F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceOne", "ServiceOne", "{A6D815D0-E7CB-4428-BDED-D11DCCFBA2D0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceTwo", "ServiceTwo", "{DB808461-853F-4D04-968A-52C91A7AF810}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{7D1D6C60-ED27-416A-873C-411E6682E92E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +46,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ED1F26CC-3289-4F8E-A7CA-7216026B1D5D} = {B5B55AB5-B87E-4C41-B375-4276A82E11BE}
+		{C0353FE3-065C-4BE1-AC1C-A39737486784} = {7D1D6C60-ED27-416A-873C-411E6682E92E}
+		{FA5DDEEF-B4D0-46A0-8F31-7F73842291AE} = {A6D815D0-E7CB-4428-BDED-D11DCCFBA2D0}
+		{EC7C777C-FBFE-421A-A480-C53B3CB4A80D} = {DB808461-853F-4D04-968A-52C91A7AF810}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EFFDA66A-BDB3-4276-9756-84204F4B7437}

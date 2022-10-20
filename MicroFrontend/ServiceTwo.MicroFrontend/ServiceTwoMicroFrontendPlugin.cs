@@ -2,7 +2,7 @@
 
 namespace ServiceOne.MicroFrontend;
 
-public class ServiceOneMicroFrontendPlugin : IMicroFrontendPlugin
+public class ServiceTwoMicroFrontendPlugin : IMicroFrontendPlugin
 {
     public string Name => "Service Two";
 }

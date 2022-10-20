@@ -3,8 +3,6 @@
 internal record MicroFrontentRegistration(
     string Slug,
     string Name,
+    string NameTag,
     string Namespace,
-    string RootComponentName,
-    Type RootComponent);
-
-
+    IReadOnlyDictionary<string, Type> Pages);

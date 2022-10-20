@@ -12,7 +12,7 @@
 
 @if (Component != null)
 {
-    <DynamicComponent Type=@Component Parameters=@ComponentParameters />
+    <DynamicComponent Type=@Component />
 }
 
 @code {
@@ -24,18 +24,29 @@
     [Parameter]
     public string? Page { get; set; }
 
+    // TODO: move to cascading parameter with shared class
     public Dictionary<string, object?> ComponentParameters = new();
 
     protected override async Task OnParametersSetAsync()
     {
-        ComponentParameters["Page"] = Page;
+        var frontend = await MicroFrontendProvider.GetMicroFrontendAsync(Slug);
 
-        var frontend = MicroFrontendProvider.GetMicroFrontend(Slug);
+        var page = $"/{Page}";
+
+        ComponentParameters["Page"] = page;
+
+        Component = null;
 
         if (frontend != null)
         {
-            Component = frontend.RootComponent;
-            await Interop.IncludeLink(frontend.Namespace, $"/frontends/{frontend.Namespace}/{frontend.RootComponentName}.styles.css");
+            if (frontend.Pages.TryGetValue(page, out var pageComponent))
+            {
+                Component = pageComponent;
+
+                Console.WriteLine($"{Slug}{page} -> {Component.Name}");
+
+                await Interop.IncludeLink(frontend.Namespace, $"/frontends/{frontend.NameTag}/{frontend.Namespace}.styles.css");
+            }
         }
     }
 }

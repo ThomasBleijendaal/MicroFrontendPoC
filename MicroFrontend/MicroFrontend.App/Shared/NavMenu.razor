@@ -20,7 +20,7 @@
             {
                 @foreach (var frontend in Frontends)
                 {
-                    <NavLink class="nav-link" href="@($"/{frontend.Slug}")" Match="NavLinkMatch.All">
+                    <NavLink class="nav-link" href="@($"/{frontend.Slug}")" Match="NavLinkMatch.Prefix">
                         <span class="oi oi-home" aria-hidden="true"></span> @(frontend.Name)
                     </NavLink>
                 }
