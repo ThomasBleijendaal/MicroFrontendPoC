@@ -1,9 +1,21 @@
 ﻿@page "/"
 @inject NavigationManager Nav
+@inject AuthenticationStateProvider Auth
 
 <div class="my-component">
     <p>This component is defined in the <strong>ServiceOne.MicroFrontend</strong> library.</p>
 
     <p>@Nav.Uri</p>
+
+    <p>@(User?.Identity?.Name)</p>
 </div>
 
+@code {
+    private ClaimsPrincipal? User { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var state = await Auth.GetAuthenticationStateAsync();
+        User = state.User;
+    }
+}
