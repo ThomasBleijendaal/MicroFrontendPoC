@@ -6,49 +6,9 @@
 @page "/{slug}"
 @page "/{slug}/{*page}"
 
-@inject HttpClient HttpClient
-@inject IMicroFrontendProvider MicroFrontendProvider
-@inject Interop Interop
-
 <h3>@Slug / @Page</h3>
 
 @if (Component != null)
 {
-    <DynamicComponent Type=@Component />
-}
-
-@code {
-    private Type? Component { get; set; }
-
-    [Parameter]
-    public string Slug { get; set; } = null!;
-
-    [Parameter]
-    public string? Page { get; set; }
-
-    // TODO: move to cascading parameter with shared class
-    public Dictionary<string, object?> ComponentParameters = new();
-
-    protected override async Task OnParametersSetAsync()
-    {
-        var frontend = await MicroFrontendProvider.GetMicroFrontendAsync(Slug);
-
-        var page = $"/{Page}";
-
-        ComponentParameters["Page"] = page;
-
-        Component = null;
-
-        if (frontend != null)
-        {
-            if (frontend.Pages.TryGetValue(page, out var pageComponent))
-            {
-                Component = pageComponent;
-
-                Console.WriteLine($"{Slug}{page} -> {Component.Name}");
-
-                await Interop.IncludeLink(frontend.Namespace, $"/frontends/{frontend.NameTag}/{frontend.Namespace}.styles.css");
-            }
-        }
-    }
+    <DynamicComponent Type=@Component Parameters=@ComponentParameters />
 }

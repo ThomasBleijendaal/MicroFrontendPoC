@@ -1,4 +1,5 @@
-﻿@page "/details"
+﻿@page "/details/{id:int}"
+
 @inject NavigationManager Nav
 
 <div class="my-component">
@@ -7,4 +8,10 @@
     <p>@Nav.Uri</p>
 
     <p><NavLink href="/service-two">Index</NavLink></p>
+
+    <p><NavLink href="@($"/service-two/details/{(Id + 1)}")">Next</NavLink></p>
 </div>
+
+@code {
+    [Parameter] public int Id { get; set; }
+}

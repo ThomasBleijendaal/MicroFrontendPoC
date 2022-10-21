@@ -2,8 +2,8 @@
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Text.RegularExpressions;
+using MicroFrontend.App.Routing;
 using MicroFrontend.Core;
-using Microsoft.AspNetCore.Components;
 
 namespace MicroFrontend.App.Providers;
 
@@ -64,17 +64,16 @@ internal class MicroFrontendProvider : IMicroFrontendProvider
                             {
                                 if (assembly.GetName().Name is string componentAssemblyName)
                                 {
-                                    var pages = assembly.GetTypes()
-                                        .Select(x => (Type: x, Route: x.GetCustomAttribute<RouteAttribute>()?.Template))
-                                        .Where(x => x.Route != null)
-                                        .ToDictionary(x => x.Route!, x => x.Type);
+                                    var key = new RouteKey(assembly, Enumerable.Empty<Assembly>());
+
+                                    var routeTable = RouteTableFactory.Create(key);
 
                                     _registrations.Add(new MicroFrontentRegistration(
                                         CreateSlug(plugin.Name),
                                         plugin.Name,
                                         frontend.Key,
                                         componentAssemblyName,
-                                        pages));
+                                        routeTable));
                                 }
                             }
                         }
@@ -89,9 +88,9 @@ internal class MicroFrontendProvider : IMicroFrontendProvider
 
         foreach (var registrations in _registrations)
         {
-            foreach (var page in registrations.Pages)
+            foreach (var entry in registrations.RouteTable.Routes)
             {
-                Console.WriteLine($"{page.Key} -> {page.Value.Name}");
+                Console.WriteLine($"{entry.Template.TemplateText} -> {entry.Handler.FullName}");
             }
         }
 
