@@ -1,5 +1,5 @@
 ﻿using MicroFrontend.App;
-using MicroFrontend.App.Providers;
+using MicroFrontend.BaseApp;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -8,8 +8,9 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped<Interop>();
-builder.Services.AddScoped<IMicroFrontendProvider, MicroFrontendProvider>();
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
+builder.Services.AddCoreServices();
 
 builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();

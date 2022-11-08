@@ -1,5 +1,6 @@
-﻿using MicroFrontend.App.Providers;
-using MicroFrontend.App.Routing;
+﻿using MicroFrontend.BaseApp.Providers;
+using MicroFrontend.BaseApp.Routing;
+using MicroFrontend.Core;
 using Microsoft.AspNetCore.Components;
 
 namespace MicroFrontend.App.Pages;
@@ -23,7 +24,7 @@ public partial class FrontendPage
     [Parameter]
     public string? Page { get; set; }
 
-    public IDictionary<string, object> ComponentParameters = EmptyParametersDictionary;
+    public IDictionary<string, object> ComponentParameters { get; set; } = EmptyParametersDictionary;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -44,7 +45,7 @@ public partial class FrontendPage
                 Component = context.Handler;
                 ComponentParameters = context.Parameters ?? EmptyParametersDictionary;
 
-                await Interop.IncludeLink(frontend.Namespace, $"/frontends/{frontend.NameTag}/{frontend.Namespace}.styles.css");
+                await Interop.IncludeLink(frontend.Namespace, $"{Constants.FrontendFolder}{frontend.NameTag}/{frontend.Namespace}.styles.css");
             }
         }
     }

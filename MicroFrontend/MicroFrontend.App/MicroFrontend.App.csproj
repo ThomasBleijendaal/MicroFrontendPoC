@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MicroFrontend.BaseApp\MicroFrontend.BaseApp.csproj" />
     <ProjectReference Include="..\MicroFrontend.Core\MicroFrontend.Core.csproj" />
   </ItemGroup>
 
